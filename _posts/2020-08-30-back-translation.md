@@ -1,5 +1,5 @@
 ---
-title: "Text Data Augmentation with MarianMT"
+title: "Text Data Augmentation with MarianNMT"
 date: 2020-08-30T19:44-00:00
 permalink: /back-translation/
 categories:
@@ -7,8 +7,8 @@ categories:
   - data augmentation
 excerpt: Learn how to use machine translation models in Hugging Face Transformers for data augmentation
 header:
-  og_image: /images/back-translation-marianmt.png
-  teaser: /images/back-translation-marianmt.png
+  og_image: /images/back-translation-MarianNMT.png
+  teaser: /images/back-translation-MarianNMT.png
 classes: wide
 ---
 
@@ -17,12 +17,12 @@ Hugging Face recently released [1008 translation models](https://huggingface.co/
 
 These models were originally trained by [Jörg Tiedemann](https://researchportal.helsinki.fi/en/persons/j%C3%B6rg-tiedemann) of the [Language Technology Research Group at the University of Helsinki](https://blogs.helsinki.fi/language-technology/). The original models were trained on the [Open Parallel Corpus(OPUS)](http://opus.nlpl.eu/) using a neural machine translation framework called [MarianNMT](https://marian-nmt.github.io/).
 
-In this post, I will explain how you can use the MarianMT models to perform data augmentation for text.  
+In this post, I will explain how you can use the MarianNMT models to perform data augmentation for text.  
 
 ## Back Translation    
-We will use a data augmentation technique called "Back Translation". In this, we take an original text written in English. Then, we convert it into another language (eg. French) using MarianMT. We translate the French text back into English using MarianMT. We keep the back-translated English text if it is different from the original English sentence.
+We will use a data augmentation technique called "Back Translation". In this, we take an original text written in English. Then, we convert it into another language (eg. French) using MarianNMT. We translate the French text back into English using MarianNMT. We keep the back-translated English text if it is different from the original English sentence.
 
-![Backtranslation with MarianMT](/images/back-translation-marianmt.png){: .align-center}
+![Backtranslation with MarianNMT](/images/back-translation-MarianNMT.png){: .align-center}
 
 
 ## Augmentation Process [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1J_KpNYj03gecT0p9s6YeDcDJHKgPn1Hh?usp=sharing)
@@ -33,23 +33,23 @@ pip install -U transformers
 pip install mosestokenizer
 ```
 
-After installation, we can now import the MarianMT model and tokenizer.
+After installation, we can now import the MarianNMT model and tokenizer.
 ```python
-from transformers import MarianMTModel, MarianTokenizer
+from transformers import MarianNMTModel, MarianTokenizer
 ```
 
 Then, we can create a initialize the model that can translate from English to Romance languages. This is a single model that can translate to any of the romance languages()
 ```python
 target_model_name = 'Helsinki-NLP/opus-mt-en-ROMANCE'
 target_tokenizer = MarianTokenizer.from_pretrained(target_model_name)
-target_model = MarianMTModel.from_pretrained(target_model_name)
+target_model = MarianNMTModel.from_pretrained(target_model_name)
 ```
 
 Similarly, we can initialize models that can translate Romance languages to English.
 ```python
 en_model_name = 'Helsinki-NLP/opus-mt-ROMANCE-en'
 en_tokenizer = MarianTokenizer.from_pretrained(en_model_name)
-en_model = MarianMTModel.from_pretrained(en_model_name)
+en_model = MarianNMTModel.from_pretrained(en_model_name)
 ```
 
 Next, we write a helper function to translate a batch of text given the machine translation model, tokenizer and the target romance language.  
@@ -141,7 +141,7 @@ target_tokenizer.supported_language_codes
 ```
 
 ## Conclusion
-Thus, MarianMT is a decent free and offline alternative to Google Translate for back-translation.  
+Thus, MarianNMT is a decent free and offline alternative to Google Translate for back-translation.  
 
 ## References
-- [MarianMT - transformers 3.0.2 documentation](https://huggingface.co/transformers/model_doc/marian.html)
+- [MarianNMT - transformers 3.0.2 documentation](https://huggingface.co/transformers/model_doc/marian.html)
